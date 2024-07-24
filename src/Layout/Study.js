@@ -54,11 +54,12 @@ function Study() {
     }
 
     return (
-        <>
-            <h1><span>Study: </span><span>{deck.name}</span></h1>
+        <div className="simple-border-style">
+            <h3><span>Study: </span><span>{deck.name}</span></h3>
+            <br />
             { cardNum < 3 ? (
                 <div>
-                    <h2>Not enough cards.</h2>
+                    <h3>Not enough cards.</h3>
                     <p>{`You need at least 3 cards to study. There are ${cardNum} cards in this deck.`}</p>
                     <Link to={`/decks/${deckId}/cards/new`}><button className="button button-add">+ Add Cards</button></Link>
                 </div>
@@ -66,22 +67,24 @@ function Study() {
                 cardNum > 0 && (
                     flipped ? (
                         <div>
-                            <h2>{`Card ${cardCounter} of ${cardNum}`}</h2>
-                            <p>{cards[cardCounter-1].back}</p>
+                            <p>{`Card ${cardCounter} of ${cardNum}`}</p>
+                            <h3>{cards[cardCounter-1].back}</h3>
+                            <br />
                             <button className="button button-study" onClick={() => {setFlipped(false)}}>Flip</button>
                             <button className="button button-view" onClick={() => {handleNext()}}>Next &gt;&gt;</button>
                         </div>
                     ) : (
                         <div>
-                            <h2>{`Card ${cardCounter} of ${cardNum}`}</h2>
-                            <p>{cards[cardCounter-1].front}</p>
+                            <p>{`Card ${cardCounter} of ${cardNum}`}</p>
+                            <h3>{cards[cardCounter-1].front}</h3>
+                            <br />
                             <button className="button button-study" onClick={() => {setFlipped(true)}}>Flip</button>
                         </div>
                     )
                     
                 )
             )}
-        </>
+        </div>
     )
 }
 
