@@ -1,0 +1,124 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bg-black {
+  background-color: black;
+}
+
+.button {
+  border-radius: 8px; /* Semi-rounded corners */
+  padding: 10px 20px; /* Padding */
+  color: white; /* Text color */
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.button-view,
+.button-submit {
+  background-color: rgb(101, 197, 101);
+}
+
+.button-study {
+  background-color: rgb(40, 136, 168);
+}
+
+.button-delete, 
+.button-cancel {
+  background-color: lightcoral;
+}
+
+.button-add,
+.button-edit {
+  background-color: #1E90FF;
+}
+
+.create-deck, .cards-title {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  margin-bottom: 20px; /* Optional: space between button and DeckList */
+}
+
+.deck-card {
+  /* display: flex;
+  flex-direction: column; */
+  padding: 15px;
+  margin: 10px;
+  border: 1px solid #ddd; /* Light gray border */
+  border-radius: 10px; /* Semi-rounded corners */
+  background-color: white; /* Background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for card effect */
+}
+
+.deck-card-header {
+  display: flex; /* Apply Flexbox for the header */
+  justify-content: space-between; /* Space between name and count */
+  align-items: center; /* Align items vertically center */
+  margin-bottom: 10px; /* Space between header and other content */
+}
+
+.deck-card-name {
+  font-size: 1.5em; /* Larger text for the deck name */
+  font-weight: bold;
+}
+
+.deck-card-card-count {
+  font-size: 0.9em; /* Smaller text for the card count */
+}
+
+.simple-border-style {
+  background-color: white; /* White background */
+  color: black; /* Text color */
+  border-radius: 10px; /* Semi-rounded corners */
+  padding: 1rem; /* Padding around the content */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border: 1px solid #ddd; /* Light gray border */
+}
+
+.simple-border-style input,
+.simple-border-style textarea {
+    width: 100%; /* Full width of the container */
+    padding: 0.5rem; /* Padding inside input and textarea */
+    border-radius: 5px; /* Semi-rounded corners for input and textarea */
+    border: 1px solid #ccc; /* Light border color */
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+    margin-top: 0.5rem; /* Space above the input and textarea */
+    margin-bottom: 1rem; /* Space below the input and textarea */
+}
