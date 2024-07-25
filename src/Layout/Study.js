@@ -1,31 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useOutletContext } from "react-router-dom";
 import { readDeck } from "../utils/api";
 
 function Study() {
-    const {deckId} = useParams()
-    const [deck, setDeck] = useState(null)
-    const [error, setError] = useState(null)
+    const {deckId} = useParams();
+    const [error, setError] = useState(null);
     const [cardCounter, setCardCounter] = useState(1);
     const [flipped, setFlipped] = useState(false);
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        const abortController = new AbortController()
-        
-        async function loadDeck() {
-            try {
-                const deckFromApi = await readDeck(deckId, abortController.signal)
-                setDeck(deckFromApi)
-            } catch (error) {
-                if (error.name !== "AbortError") {
-                    setError(error);
-                }
-            }
-        }
-        loadDeck()
-        return () => abortController.abort()
-    }, [deckId])
+    const navigate = useNavigate();
+    const {deck, reloadDeck} = useOutletContext();
 
     if (error) {
         return <div>Error: {error.message}</div>;
@@ -40,7 +23,7 @@ function Study() {
 
     const handleNext = () => {
         if (cardCounter === cardNum) {
-            const result = window.confirm("Restart cards?");
+            const result = window.confirm("All cards have been flipped. Restart cards?");
             if (result) {
                 setCardCounter(1)
                 setFlipped(false)

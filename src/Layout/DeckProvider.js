@@ -10,25 +10,30 @@ function DeckProvider() {
     const [deck, setDeck] = useState(null)
     const [error, setError] = useState(null)
 
-    useEffect(() => {
+    const loadDeck = async () => {
+        const abortController = new AbortController();
         if (deckId) {
-            const abortController = new AbortController()
-            
-            async function loadDeck() {
-                try {
-                    const deckFromApi = await readDeck(deckId, abortController.signal)
-                    setDeck(deckFromApi)
-                } catch (error) {
-                    if (error.name !== "AbortError") {
-                        setError(error);
-                    }
+            try {
+                const deckFromApi = await readDeck(deckId, abortController.signal);
+                setDeck(deckFromApi);
+            } catch (error) {
+                if (error.name !== "AbortError") {
+                    setError(error);
                 }
             }
-            loadDeck()
-            return () => abortController.abort()
         }
-    }, [deckId])
+    };
 
+    useEffect(() => {
+        const abortController = new AbortController();
+        loadDeck();
+        return () => abortController.abort();
+    }, [deckId]);
+    
+    const reloadDeck = () => {
+        loadDeck();
+    };
+    
     useEffect(() => {
         const path = location.pathname.toLowerCase();
 
@@ -76,7 +81,7 @@ function DeckProvider() {
                 </h3>
             </nav>
             <br />
-            <Outlet context={deck}/>
+            <Outlet context={{deck, reloadDeck}}/>
         </div>
     )
 }

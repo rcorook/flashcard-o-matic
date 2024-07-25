@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { createCard, updateCard } from "../utils/api";
-import { readDeck, readCard } from "../utils/api";
+import { readCard } from "../utils/api";
 
 function AddEditCard() {
     const navigate = useNavigate()
     const {deckId, cardId} = useParams();
-    const [deck, setDeck] = useState(null)
+    const {deck, reloadDeck} = useOutletContext()
 
     const initialCard = {
         front: "",
@@ -14,26 +14,6 @@ function AddEditCard() {
     }
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState({...initialCard});
-
-    useEffect(() => {
-        if (deckId) {
-            const abortController = new AbortController()
-        
-        async function loadDeck() {
-            try {
-                const deckFromApi = await readDeck(deckId, abortController.signal)
-                
-                setDeck(deckFromApi)
-            } catch (error) {
-                if (error.name !== "AbortError") {
-                    setError(error);
-                }
-            }
-        }
-        loadDeck()
-        return () => abortController.abort()
-        }
-    }, [deckId])
 
     useEffect(() => {
         if (cardId) {
@@ -63,11 +43,12 @@ function AddEditCard() {
             if (deck && cardId) {
                 const updatedCard = { ...formData, id: cardId };
                 response = await updateCard(updatedCard, abortController.signal);
-                navigate(`/decks/${deckId}`)
+                navigate(`/decks/${deckId}`);
             } else {
                 response = await createCard(deckId,formData, abortController.signal);
-                setFormData({...initialCard})
+                setFormData({...initialCard});
             }    
+            reloadDeck();
         } catch (error) {
             setError(error);
         }

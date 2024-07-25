@@ -1,37 +1,17 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate, useParams, useOutletContext } from "react-router-dom";
-import { createDeck, readDeck, updateDeck } from "../utils/api";
+import { createDeck, updateDeck } from "../utils/api";
 
 function CreateEditDeck() {
     const {deckId} = useParams()
-    const [deck, setDeck] = useState(null)
-
+    const {deck, reloadDeck} = useOutletContext()
     const navigate = useNavigate()
     const initialDeck = {
         name: "",
         description: ""
     }   
-    const [error, setError] = useState(null);
     const [formData, setFormData] = useState({...initialDeck});
-
-    useEffect(() => {
-        if (deckId) {
-            const abortController = new AbortController()
-        
-        async function loadDeck() {
-            try {
-                const deckFromApi = await readDeck(deckId, abortController.signal)
-                setDeck(deckFromApi)
-            } catch (error) {
-                if (error.name !== "AbortError") {
-                    setError(error);
-                }
-            }
-        }
-        loadDeck()
-        return () => abortController.abort()
-        }
-    }, [deckId])
+    const [error, setError] = useState();
 
     useEffect(() => {
         if (deck) {
@@ -63,6 +43,7 @@ function CreateEditDeck() {
             }
             const id = response.id
             navigate(`/decks/${id}`)
+            reloadDeck()
         } catch (error) {
             setError(error);
         }
